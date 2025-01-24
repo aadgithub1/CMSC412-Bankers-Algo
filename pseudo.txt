@@ -26,3 +26,26 @@ Use M as the "width" of the allocation matrix
 
 Calculate need matrix
     subtract allocation values from claim values
+
+Add available array when populating allocation array
+    if array has not been populated
+        use j (col index) to populate it
+    overwrite existing positions by continually subtracting
+    resources as the amount allocated increases
+
+Implement algorithm using existing arrays
+    start with claim
+        for i, j is claim <= available?
+        if yes
+            if we are at the last col and current p is not in seq
+                add to seq
+                releaseResources()
+            continue (increment j to get next col)
+        if no, break (increment i)
+
+
+    releaseResources(int[] allocation, int[] available)
+
+        for each column in allocation/available
+            add the allocation amount to available value
+
