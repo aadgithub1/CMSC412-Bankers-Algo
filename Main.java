@@ -1,5 +1,4 @@
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main{
@@ -7,13 +6,28 @@ public class Main{
         try{
             File file = new File("input.txt");
             Scanner scanner = new Scanner(file);
-            int[] items = new int[2];
-            for(int i = 0; i < 2; i++){
-                items[i] = scanner.nextInt();
+            int nProcesses = scanner.nextInt();
+            int mResourceTypes = scanner.nextInt();
+            
+            int[] systemResources = new int[mResourceTypes];
+            for(int i = 0; i < mResourceTypes; i++){
+                systemResources[i] = scanner.nextInt();
             }
-            for(int item : items){
-                System.out.println(item);
+
+            int[][] allocation = new int[nProcesses][mResourceTypes];
+            for(int i = 0; i < nProcesses; i++){
+                for(int j = 0; j < mResourceTypes; j++){
+                    allocation[i][j] = scanner.nextInt();
+                }
             }
+
+            int[][] claim = new int[nProcesses][mResourceTypes];
+            for(int i = 0; i < nProcesses; i++){
+                for(int j = 0; j < mResourceTypes; j++){
+                    claim[i][j] = scanner.nextInt();
+                }
+            }
+
             scanner.close();
         } catch(Exception e){
             e.printStackTrace();

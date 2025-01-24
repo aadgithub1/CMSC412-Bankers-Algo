@@ -1,0 +1,28 @@
+Read file
+    import resources
+    make File from target file path
+    print output to confirm reading
+
+Use first line to determine # of processes and resource types
+    Read file
+    save first value as N (num processes)
+    save second value as M (num resource types)
+
+Use second line to determine # of units of each system resource
+    for i < M (num resource types)
+    add values to array which represents total respective resource
+
+Use N as the "length" of the allocation matrix (next # set)
+Use M as the "width" of the allocation matrix
+    for i < N
+        for j < M
+            add values to allocation matrix
+
+Use N as the "length" of the allocation matrix (next # set)
+Use M as the "width" of the allocation matrix
+    for i < N
+        for j < M
+            add values to max/claim matrix
+
+Calculate need matrix
+    subtract allocation values from claim values
