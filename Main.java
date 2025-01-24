@@ -14,10 +14,16 @@ public class Main{
                 systemResources[i] = scanner.nextInt();
             }
 
+            int[] available = new int[mResourceTypes];
             int[][] allocation = new int[nProcesses][mResourceTypes];
             for(int i = 0; i < nProcesses; i++){
                 for(int j = 0; j < mResourceTypes; j++){
                     allocation[i][j] = scanner.nextInt();
+                    if(i == 0){
+                        available[j] = systemResources[j] - allocation[i][j];
+                    } else{
+                        available[j] -= allocation[i][j];
+                    }
                 }
             }
 
@@ -28,6 +34,13 @@ public class Main{
                 }
             }
 
+            int[][] need = new int[nProcesses][mResourceTypes];
+            for(int i = 0; i < nProcesses; i++){
+                for(int j = 0; j < mResourceTypes; j++){
+                    need[i][j] = claim[i][j] - allocation[i][j];
+                }
+            }
+            
             scanner.close();
         } catch(Exception e){
             e.printStackTrace();
