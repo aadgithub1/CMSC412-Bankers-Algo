@@ -48,13 +48,16 @@ public class Main{
             }
 
             boolean[] finished = new boolean[nProcesses];
+            ArrayList<Integer> tempSeq = new ArrayList<>();
             ArrayList<Integer> seq = new ArrayList<>();
-            while(seq.size() < nProcesses){
+            ArrayList<Integer> seq2 = new ArrayList<>();
+            boolean foundTwoSeqs = false;
+            while(tempSeq.size() < nProcesses){
                 for(int i = 0; i < nProcesses; i++){
                     for(int j = 0; j < mResourceTypes; j++){
                         if(claim[i][j] <= available[j] + allocation[i][j]){
                             if(j == mResourceTypes - 1 && finished[i] == false){
-                                seq.add(i);
+                                tempSeq.add(i);
                                 finished[i] = true;
                                 for(int q = 0; q < mResourceTypes; q++){
                                     available[q] += allocation[i][q];
@@ -68,9 +71,25 @@ public class Main{
                         }
                     }
                 }
+                if(tempSeq.size() == nProcesses){
+                    if(seq.isEmpty()){
+                        seq = new ArrayList<>(tempSeq);
+                        tempSeq.clear();
+                    } else if(!seq.isEmpty()){
+                        seq2 = new ArrayList<>(tempSeq);
+                        tempSeq.clear();
+                        foundTwoSeqs = true;
+                    }
+                }
+                if(foundTwoSeqs){
+                    break;
+                }
             }
             scanner.close();
             for(Integer process : seq){
+                System.err.println("process " + (process+1));
+            }
+            for(Integer process : seq2){
                 System.err.println("process " + (process+1));
             }
         } catch(Exception e){
