@@ -39,6 +39,7 @@ Implement algorithm using existing arrays
         if yes
             if we are at the last col and current p is not in seq
                 add to seq
+                change finished[i] to true
                 releaseResources()
             continue (increment j to get next col)
         if no, break (increment i)
