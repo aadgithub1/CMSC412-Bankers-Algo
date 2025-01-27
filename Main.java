@@ -43,32 +43,51 @@ public class Main{
                     need[i][j] = claim[i][j] - allocation[i][j];
                 }
             }
+            //haves: systemResources[], available[], allocation[][],
+            //claim[][], need[][]
+            boolean[] finished = new boolean[nProcesses];
 
-            ArrayList<Integer> seq = new ArrayList<>();
-            while(seq.size() < nProcesses){
-                for(int i = 0; i < nProcesses; i++){
-                    for(int j = 0; j < mResourceTypes; j++){
-                        if(need[i][j] <= available[j]){
-                            if(j == mResourceTypes - 1 && !seq.contains(i)){
-                                seq.add(i);
-                                for(int q = 0; q < mResourceTypes; q++){
-                                    available[q] += allocation[i][q];
-                                    System.out.println(available[q]);
-                                }
-                            }
-                        } else{
-                            break;
-                        }
-                    }
-                }
-            }
+            findSafeSeq(nProcesses, mResourceTypes, systemResources,
+            available, finished, allocation, need, claim);
+            
             scanner.close();
-            System.out.println("the sequence is: ");
-            for(int i = 0; i < seq.size(); i++){
-                System.out.println((seq.get(i)+1) + ", ");
-            }
+            // System.out.println("the sequence is: ");
+            // for(int i = 0; i < seq.size(); i++){
+            //     System.out.println((seq.get(i)+1) + ", ");
+            // }
         } catch(Exception e){
             e.printStackTrace();
         }
     }
+
+    public static boolean canRun(
+        int[][] need, int[] available, int processIndex){
+            boolean canRunFlag = false;
+
+            for(int j = 0; j < available.length; j++){
+                if(need[processIndex][j] <= available[j]){
+                    if(j == available.length - 1){
+                        canRunFlag = true;
+                    }
+                } else{
+                    return false;
+                }
+            }
+            return canRunFlag;
+        }
+
+    public static void findSafeSeq(
+        int numProcesses, int numResourceTypes,
+        int[] system, int[] available, boolean[] finished,
+        int[][] allocation, int[][] need, int[][] claim){
+
+            ArrayList<Integer> safe = new ArrayList<>();
+
+            for(int i = 0; i < numProcesses; i++){
+                if(!finished[i] && canRun(need, available, i)){
+                    finished[i] = true;
+
+                }
+            }
+        }
 }
