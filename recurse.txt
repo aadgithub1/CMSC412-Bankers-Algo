@@ -13,4 +13,5 @@ what are we doing when estblishing a sequence
                 check the next process
 
 base case:
-if the size of available == size of system resources
+we stop entering the recursive block because the current process is marked
+then we check and find the safe sequence list is the same size as nProcesses
