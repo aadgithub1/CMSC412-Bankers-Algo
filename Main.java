@@ -30,14 +30,6 @@ public class Main{
                 }
             }
 
-            for (int av : available) {
-                System.out.print(av);
-            }
-            System.out.println();
-
-            //TO-DO
-            //Make it find exactly 2 sequences
-            //Make UI
             int[][] claim = new int[nProcesses][mResourceTypes];
             for(int i = 0; i < nProcesses; i++){
                 for(int j = 0; j < mResourceTypes; j++){
@@ -53,6 +45,26 @@ public class Main{
             }
 
             ArrayList<Integer> seq = new ArrayList<>();
+            ArrayList<Integer> validStartPoints = new ArrayList<>();
+            //create a list of potential safe starting points
+                //if need for this process and this resource < available + allocation
+                    //add to list
+
+                //for each item in the list
+                    //print item i is a valid starting point
+
+
+            // for(int k = 0; k < nProcesses; k++){
+            //     for(int l = 0; l < mResourceTypes; l++){
+            //         if(claim[k][l] <= available[l] + allocation[k][l]){
+            //             validStartPoints.add(k);
+            //         }
+            //     }
+            // }
+
+
+
+
             int zeroCounter = 0;
             while(seq.size() < nProcesses){
                 for(int i = 0; i < nProcesses; i++){
@@ -60,7 +72,7 @@ public class Main{
                         if(i == 0){
                             zeroCounter++;
                         }
-                        if(claim[i][j] <= available[j] + allocation[i][j]){
+                        if(need[i][j] <= available[j]){
                             if(j == mResourceTypes - 1 && !seq.contains(i)){
                                 seq.add(i);
                                 for(int q = 0; q < mResourceTypes; q++){
@@ -78,11 +90,11 @@ public class Main{
                     break;
                 }
             }
+            scanner.close();
             System.out.println("the sequence is: ");
             for(int i = 0; i < seq.size(); i++){
                 System.out.println((seq.get(i)+1) + ", ");
             }
-            scanner.close();
         } catch(Exception e){
             e.printStackTrace();
         }
