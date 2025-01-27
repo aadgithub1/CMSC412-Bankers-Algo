@@ -28,21 +28,9 @@ public class Arena {
         //     break;
         // }
 
-        int[] nums = new int[5];
-        for(int i = 0; i < nums.length; i++){
-            nums[i] = i;
-        }
+        ArrayList<Integer> list = new ArrayList<>();
 
-        for(int i = 0; i < nums.length; i++){
-            System.out.println(nums[i]);
-        }
-
-        int[] num2 = nums;
-        num2[2] = 18;
-        num2[4] = 24;
-        for(int i = 0; i < num2.length; i++){
-            System.out.println(num2[i]);
-        }
+        System.out.println(list.isEmpty());
 
     }
     
