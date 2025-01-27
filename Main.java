@@ -43,18 +43,14 @@ public class Main{
                     need[i][j] = claim[i][j] - allocation[i][j];
                 }
             }
-            //haves: systemResources[], available[], allocation[][],
-            //claim[][], need[][]
+            
             boolean[] finished = new boolean[nProcesses];
+            ArrayList<Integer> safeSeq = new ArrayList<>();
 
             findSafeSeq(nProcesses, mResourceTypes, systemResources,
-            available, finished, allocation, need, claim);
+            available, finished, safeSeq, allocation, need, claim);
             
             scanner.close();
-            // System.out.println("the sequence is: ");
-            // for(int i = 0; i < seq.size(); i++){
-            //     System.out.println((seq.get(i)+1) + ", ");
-            // }
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -78,15 +74,35 @@ public class Main{
 
     public static void findSafeSeq(
         int numProcesses, int numResourceTypes,
-        int[] system, int[] available, boolean[] finished,
+        int[] system, int[] available, boolean[] finished, ArrayList<Integer> safe,
         int[][] allocation, int[][] need, int[][] claim){
-
-            ArrayList<Integer> safe = new ArrayList<>();
 
             for(int i = 0; i < numProcesses; i++){
                 if(!finished[i] && canRun(need, available, i)){
                     finished[i] = true;
 
+                    for(int j = 0; j < numResourceTypes; j++){
+                        available[j] += allocation[i][j];
+                    }
+
+                    safe.add(i);
+                    findSafeSeq(numProcesses, numResourceTypes, system, available,
+                    finished, safe, allocation, need, claim);
+                    safe.remove(safe.size()-1);
+
+                    for(int j = 0; j < numResourceTypes; j++){
+                        available[j] -= allocation[i][j];
+                    }
+
+                    finished[i] = false;
+                }
+
+                if(safe.size() == numProcesses){
+                    System.out.println("the sequence is:");
+                    for(Integer item : safe){
+                        System.out.println(item+1);
+                    }
+                    return;
                 }
             }
         }
