@@ -43,7 +43,7 @@ public class Main{
                     need[i][j] = claim[i][j] - allocation[i][j];
                 }
             }
-            
+
             boolean[] finished = new boolean[nProcesses];
             ArrayList<Integer> safeSeq = new ArrayList<>();
 
@@ -58,52 +58,52 @@ public class Main{
 
     public static boolean canRun(
         int[][] need, int[] available, int processIndex){
-            boolean canRunFlag = false;
+        boolean canRunFlag = false;
 
-            for(int j = 0; j < available.length; j++){
-                if(need[processIndex][j] <= available[j]){
-                    if(j == available.length - 1){
-                        canRunFlag = true;
-                    }
-                } else{
-                    return false;
+        for(int j = 0; j < available.length; j++){
+            if(need[processIndex][j] <= available[j]){
+                if(j == available.length - 1){
+                    canRunFlag = true;
                 }
+            } else{
+                return false;
             }
-            return canRunFlag;
         }
+        return canRunFlag;
+    }
 
     public static void findSafeSeq(
         int numProcesses, int numResourceTypes,
         int[] system, int[] available, boolean[] finished, ArrayList<Integer> safe,
         int[][] allocation, int[][] need, int[][] claim){
 
-            for(int i = 0; i < numProcesses; i++){
-                if(!finished[i] && canRun(need, available, i)){
-                    finished[i] = true;
+        for(int i = 0; i < numProcesses; i++){
+            if(!finished[i] && canRun(need, available, i)){
+                finished[i] = true;
 
-                    for(int j = 0; j < numResourceTypes; j++){
-                        available[j] += allocation[i][j];
-                    }
-
-                    safe.add(i);
-                    findSafeSeq(numProcesses, numResourceTypes, system, available,
-                    finished, safe, allocation, need, claim);
-                    safe.remove(safe.size()-1);
-
-                    for(int j = 0; j < numResourceTypes; j++){
-                        available[j] -= allocation[i][j];
-                    }
-
-                    finished[i] = false;
+                for(int j = 0; j < numResourceTypes; j++){
+                    available[j] += allocation[i][j];
                 }
 
-                if(safe.size() == numProcesses){
-                    System.out.println("the sequence is:");
-                    for(Integer item : safe){
-                        System.out.println(item+1);
-                    }
-                    return;
+                safe.add(i);
+                findSafeSeq(numProcesses, numResourceTypes, system, available,
+                finished, safe, allocation, need, claim);
+                safe.remove(safe.size()-1);
+
+                for(int j = 0; j < numResourceTypes; j++){
+                    available[j] -= allocation[i][j];
                 }
+
+                finished[i] = false;
+            }
+
+            if(safe.size() == numProcesses){
+                System.out.println("the sequence is:");
+                for(Integer item : safe){
+                    System.out.println(item+1);
+                }
+                return;
             }
         }
+    }
 }
