@@ -92,5 +92,6 @@ Get multiple safe sequences
                         print there are less than two safe sequences
                         (this should actlly not execute, combine with above
                         logic block to cover all variations of full safe/safe2)
+                        
 
 
