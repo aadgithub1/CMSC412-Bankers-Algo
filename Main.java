@@ -44,7 +44,7 @@ public class Main{
                 }
             }
 
-            ArrayList<Integer> seq = new ArrayList<>();
+            
             ArrayList<Integer> validStartPoints = new ArrayList<>();
             //create a list of potential safe starting points
                 //if need for this process and this resource < available + allocation
@@ -54,17 +54,18 @@ public class Main{
                     //print item i is a valid starting point
 
 
-            // for(int k = 0; k < nProcesses; k++){
-            //     for(int l = 0; l < mResourceTypes; l++){
-            //         if(claim[k][l] <= available[l] + allocation[k][l]){
-            //             validStartPoints.add(k);
-            //         }
-            //     }
-            // }
+            for(int k = 0; k < nProcesses; k++){
+                for(int l = 0; l < mResourceTypes; l++){
+                    if(need[k][l] <= allocation[k][l]){
+                        if(l == mResourceTypes - 1 && !validStartPoints.contains(k)){
+                            validStartPoints.add(k);
+                            
+                        }
+                    }
+                }
+            }
 
-
-
-
+            ArrayList<Integer> seq = new ArrayList<>();
             int zeroCounter = 0;
             while(seq.size() < nProcesses){
                 for(int i = 0; i < nProcesses; i++){
@@ -85,7 +86,7 @@ public class Main{
                         }
                     }
                 }
-                if(zeroCounter > 4){
+                if(zeroCounter > 10){
                     System.out.println("infinite");
                     break;
                 }
