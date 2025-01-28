@@ -5,20 +5,27 @@ import java.util.Scanner;
 public class Main{
     static int nProcesses;
     static int mResourceTypes;
-    static ArrayList<Integer> safe;
-    static ArrayList<Integer> safe2;
+
+    //add 2D ArrList to store safe sequences
+    static ArrayList<ArrayList<Integer>> solutions = new ArrayList<>();
+
     public static void main(String[] args) {
         try{
-            File file = new File("input.txt");
+            //get data from files
+            File file = new File("input1.txt");
             Scanner scanner = new Scanner(file);
+
+            //first two ints tell num processes and num resource types
             nProcesses = scanner.nextInt();
             mResourceTypes = scanner.nextInt();
             
+            //total available resources
             int[] systemResources = new int[mResourceTypes];
             for(int i = 0; i < mResourceTypes; i++){
                 systemResources[i] = scanner.nextInt();
             }
 
+            //initial resources available & current allocations
             int[] available = new int[mResourceTypes];
             int[][] allocation = new int[nProcesses][mResourceTypes];
             for(int i = 0; i < nProcesses; i++){
@@ -32,6 +39,7 @@ public class Main{
                 }
             }
 
+            //the max number of each resource each process needs to complete
             int[][] claim = new int[nProcesses][mResourceTypes];
             for(int i = 0; i < nProcesses; i++){
                 for(int j = 0; j < mResourceTypes; j++){
@@ -39,6 +47,7 @@ public class Main{
                 }
             }
 
+            //difference between claim and allocation
             int[][] need = new int[nProcesses][mResourceTypes];
             for(int i = 0; i < nProcesses; i++){
                 for(int j = 0; j < mResourceTypes; j++){
@@ -46,31 +55,34 @@ public class Main{
                 }
             }
 
-            //int nProcesses, mResourceTypes
-            //int[] systemResources, int[] available,
-            //int[][] allocation, int[][]claim, int[][] need
-            int[] availableClone = available.clone();
-            ArrayList<Integer> tempSeq = new ArrayList<>();
+            //marks finished processes based on index
             boolean finished[] = new boolean[nProcesses];
 
+            //ArrayList instance to track safe sequences in the method
             ArrayList<Integer> seq = new ArrayList<>();
+
             findSafeSeq(seq, nProcesses, mResourceTypes, systemResources,
-            availableClone, finished, allocation, claim, need);
-            tempSeq.clear();
-
-            // ArrayList<Integer> seq2 = findSafeSeq(tempSeq, nProcesses, mResourceTypes, systemResources,
-            // available, finished, allocation, claim, need);
-
+            available, finished, allocation, claim, need);
 
             scanner.close();
-            System.out.println("the sequence is: ");
-            for(int i = 0; i < safe.size(); i++){
-                System.out.println((safe.get(i)+1) + ", ");
-            }
 
-            System.out.println("the second sequence is: ");
-            for(int i = 0; i < safe2.size(); i++){
-                System.out.println((safe2.get(i)+1) + ", ");
+            //print both solutions based on solution size
+            if(solutions.size() == 0){
+                System.out.println("There are no safe sequences.");
+            }else if(solutions.size() == 1){
+                System.out.println("There is one safe sequence, it is:");
+                for(int j = 0; j < solutions.get(0).size(); j++){
+                    System.out.print(solutions.get(0).get(j) + 1);
+                }
+            } else{
+                System.out.println("There are two or more safe sequences."
+                + " Here are two of them:");
+                for(int i = 0; i < solutions.size(); i++){
+                    for(int j = 0; j < solutions.get(0).size(); j++){
+                        System.out.print(solutions.get(i).get(j) + 1);
+                    }
+                    System.out.println();
+                }
             }
         } catch(Exception e){
             e.printStackTrace();
@@ -109,15 +121,18 @@ public class Main{
 
                 seq.add(i); //add process to the safe seq
 
+                if(seq.size() == numProcesses){
+                    //add the solution
+                    solutions.add(new ArrayList<>(seq));
+                }
+
+                if(solutions.size() == 2){ //check if we have both solutions
+                    return; //if so return
+                }
+                
                 findSafeSeq(seq, numProcesses, mResourceTypes,
                 systemResources, available, finished, allocation, claim, need);
-                if(seq.size() == numProcesses) {
-                    if(safe == null){
-                        safe = new ArrayList<>(seq);
-                    } else if(safe2 == null){
-                        safe2 = new ArrayList<>(seq);
-                    }
-                }
+                
                 seq.remove(seq.size()-1); //only reaches this after return
 
                 for(int j = 0; j < mResourceTypes; j++){ //relinquish resources

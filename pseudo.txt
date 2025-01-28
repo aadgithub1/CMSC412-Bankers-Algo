@@ -93,5 +93,16 @@ Get multiple safe sequences
                         (this should actlly not execute, combine with above
                         logic block to cover all variations of full safe/safe2)
                         
+3 3
+
+10 5 7
+
+2 2 2
+4 2 2
+3 0 2
+
+3 3 3
+7 5 5
+9 4 5
 
 
