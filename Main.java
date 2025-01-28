@@ -54,7 +54,6 @@ public class Main{
                     claim[i][j] = scanner.nextInt();
                 }
             }
-
             scanner.close();
 
             //difference between claim and allocation
@@ -64,6 +63,11 @@ public class Main{
                     need[i][j] = claim[i][j] - allocation[i][j];
                 }
             }
+            display1D(systemResources, "system resources");
+            display2D(allocation, "allocation");
+            display1D(available,"available");
+            display2D(claim, "claim");
+            display2D(need, "need");
 
             //marks finished processes based on index
             boolean finished[] = new boolean[nProcesses];
@@ -102,6 +106,25 @@ public class Main{
             + "number of resource types, then each start on their own lines: "
             + "The capacity of each resource and then each matrix.");
         }
+    }
+
+    public static void display1D(int[] array, String nameOfArr){
+        System.out.println("The " + nameOfArr + " array:");
+        for(int i = 0; i < array.length; i++){
+            System.out.print(array[i] + " ");
+        }
+        System.out.println("\n");
+    }
+
+    public static void display2D(int[][] array, String nameOfArr){
+        System.out.println("The " + nameOfArr + " matrix:");
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[0].length; j++){
+                System.out.print(array[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     //returns true if enough resources are available for process to run
