@@ -1,5 +1,7 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Main{
@@ -11,8 +13,14 @@ public class Main{
 
     public static void main(String[] args) {
         try{
+            Scanner inputScanner = new Scanner(System.in);
+            System.out.println("Input the file path: ");
+
             //get data from files
-            File file = new File("input1.txt");
+            File file = new File(inputScanner.nextLine());
+            inputScanner.close();
+            
+
             Scanner scanner = new Scanner(file);
 
             //first two ints tell num processes and num resource types
@@ -47,6 +55,8 @@ public class Main{
                 }
             }
 
+            scanner.close();
+
             //difference between claim and allocation
             int[][] need = new int[nProcesses][mResourceTypes];
             for(int i = 0; i < nProcesses; i++){
@@ -58,15 +68,13 @@ public class Main{
             //marks finished processes based on index
             boolean finished[] = new boolean[nProcesses];
 
-            //ArrayList instance to track safe sequences in the method
+            //ArrayList instance to track safe sequences in the below method
             ArrayList<Integer> seq = new ArrayList<>();
 
             findSafeSeq(seq, nProcesses, mResourceTypes, systemResources,
             available, finished, allocation, claim, need);
 
-            scanner.close();
-
-            //print both solutions based on solution size
+            //print both solutions based on solution ArrayList size
             if(solutions.size() == 0){
                 System.out.println("There are no safe sequences.");
             }else if(solutions.size() == 1){
@@ -84,8 +92,15 @@ public class Main{
                     System.out.println();
                 }
             }
-        } catch(Exception e){
-            e.printStackTrace();
+        } catch(FileNotFoundException fe){
+            System.out.println("The file path you entered could not "
+                + "be found, please restart and enter a valid path.");
+        } catch(NoSuchElementException nse){ //covers mismatch as well
+            System.out.println("The file format seems to be incorrect. Please "
+            + "ensure the data is input properly and restart. "
+            + "\nProper format is all numbers - number of processes, "
+            + "number of resource types, then each start on their own lines: "
+            + "The capacity of each resource and then each matrix.");
         }
     }
 
