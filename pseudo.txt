@@ -51,58 +51,19 @@ Implement algorithm using existing arrays
             add the allocation amount to available value
 
 Get multiple safe sequences
-    try using a temp arraylist
-        3 arraylists: safe, safe2, tempSafe
+    what are we doing when estblishing a sequence
+    while the sequence contains less than the
+    the total number of process
 
-        use tempSafe in loop, if temp is same size as num processes
-            if safe is empty
-                copy temp into safe
-                clear temp so the loop runs again
-            if safe is full
-                copy temp into safe2
-                clear temp
-                exit loop
-
-                how do exit if there are no more safe sequences??
-
-                if we have gone through the list multiple times and the
-                temp size is still the same we know that we have no more safe
-                sequences
-
-                try a counter which increments everytime we are at i = 0
-                    if i = 0
-                    zeroCounter++
-
-                    if temp.size = num processes
-                        if safe is empty copy it there and reset zeroCounter
-                        else copy it into safe2, reset zeroCounter, clear temp,exit
-
-                    if zeroCounter == 5
-                        break
-
-                    if safe == full
-                        print one safe seq is safe
-                    else
-                        print there are no safe sequences
-                        break??
-
-                    if safe2 == full
-                        print the second safe seq is safe 2
-                    else
-                        print there are less than two safe sequences
-                        (this should actlly not execute, combine with above
-                        logic block to cover all variations of full safe/safe2)
-                        
-3 3
-
-10 5 7
-
-2 2 2
-4 2 2
-3 0 2
-
-3 3 3
-7 5 5
-9 4 5
-
+    for every process
+        for every resource type
+            if the need of this process is less
+            than what we have available
+                && the process is not already in the sequence list (marked)
+                    mark it
+                    add the process to the list
+                    add the resources it had allocated to the available list
+                    move to next process via recursion
+            else
+                let loop iterate to examine potential next process
 

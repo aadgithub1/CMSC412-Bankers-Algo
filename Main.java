@@ -8,7 +8,7 @@ public class Main{
     static int nProcesses;
     static int mResourceTypes;
 
-    //add 2D ArrList to store safe sequences
+    //add 2D ArrayList to store safe sequences
     static ArrayList<ArrayList<Integer>> solutions = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -104,6 +104,7 @@ public class Main{
         }
     }
 
+    //returns true if enough resources are available for process to run
     public static boolean canRun(int processIndex, int[] available,
     int[][] need){
         for(int j = 0; j < available.length; j++){
@@ -125,7 +126,7 @@ public class Main{
         int[][] allocation, int[][]claim, int[][] need
     ){
 
-        for(int i = 0; i < numProcesses; i++){
+        for(int i = 0; i < numProcesses; i++){ //iterate over processes
             if(!finished[i] && canRun(i, available, need)){
 
                 finished[i] = true; //run the process
@@ -137,20 +138,21 @@ public class Main{
                 seq.add(i); //add process to the safe seq
 
                 if(seq.size() == numProcesses){
-                    //add the solution
+                    //if we have all processes, add the solution
                     solutions.add(new ArrayList<>(seq));
                 }
 
                 if(solutions.size() == 2){ //check if we have both solutions
-                    return; //if so return
+                    return; //if so return (do not look for any more)
                 }
                 
+                //iterate and make it to the next process
                 findSafeSeq(seq, numProcesses, mResourceTypes,
                 systemResources, available, finished, allocation, claim, need);
                 
                 seq.remove(seq.size()-1); //only reaches this after return
 
-                for(int j = 0; j < mResourceTypes; j++){ //relinquish resources
+                for(int j = 0; j < mResourceTypes; j++){ //take back resources
                     available[j] -= allocation[i][j];   //after dead end
                 }
 
